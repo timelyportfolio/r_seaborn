@@ -26,3 +26,30 @@ plotKML::display.pal(seaborn_palettes$muted)
 
 # R has cubeHelix with package rje
 # install.packages( "rje" )
+
+library(rCharts)
+
+d <- dPlot(
+  y ~ x
+  ,groups = c("x","y")
+  ,data = do.call(rbind, lapply(names(seaborn_palettes),function(pal){
+    data.frame(
+      x = pal
+      ,y = as.character((which(names(seaborn_palettes) == pal) - 1) * 10 +  1:10)
+    )
+  }))
+  ,type = "bar"
+  ,defaultColors = sprintf(
+    "#! d3.scale.ordinal()
+      .range(['%s'])
+      .domain(['%s'])
+    !#"
+    ,paste0( structure(unlist(seaborn_palettes), names = NULL), collapse = "','" )
+    ,paste0( 1:length(unlist(seaborn_palettes)), collapse = "','" )
+  )
+  ,xAxis = list( orderRule = names( seaborn_palettes ) )
+  ,yAxis = list( type = "addCategoryAxis" )
+)
+d$set( facet = list( x = "x" ))
+d
+
