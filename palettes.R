@@ -35,7 +35,7 @@ d <- dPlot(
   ,data = do.call(rbind, lapply(names(seaborn_palettes),function(pal){
     data.frame(
       x = pal
-      ,y = as.character((which(names(seaborn_palettes) == pal) - 1) * 10 +  1:10)
+      ,y = as.character((which(names(seaborn_palettes) == pal) - 1) * 6 +  1:6)
     )
   }))
   ,type = "bar"
